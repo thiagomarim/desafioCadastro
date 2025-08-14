@@ -3,9 +3,6 @@ package application;
 import java.util.Scanner;
 
 public class MenuInicial {
-    public static void main(String[] args) {
-        MenuInicial();
-    }
 
     public static void MenuInicial() {
         Scanner sc = new Scanner(System.in);
