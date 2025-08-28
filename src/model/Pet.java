@@ -1,5 +1,12 @@
 package model;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Pet {
     private String name;
     private PetType petType;
@@ -8,9 +15,7 @@ public class Pet {
     private String age;
     private String weight;
     private String breed;
-
     private static final String NOT_INFORMED = "Nao Informado";
-
 
     public String getName() {
         return name;
@@ -129,5 +134,52 @@ public class Pet {
         }
 
         this.breed = breed;
+    }
+
+    public void savePet() {
+        String formatedName = getName().replace(" ", "").toUpperCase();
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss");
+        String formattedDateTime = localDateTime.format(dateTimeFormatter);
+
+        File directory = new File("registeredPets");
+        directory.mkdir();
+
+        File file = new File(directory, formattedDateTime + formatedName + ".txt");
+        try {
+            boolean isCreated = file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try (FileWriter fw = new FileWriter(file);
+             BufferedWriter bw = new BufferedWriter(fw))
+        {
+            bw.write("1 - " + getName());
+            bw.newLine();
+
+            bw.write("2 - " + getPetType());
+            bw.newLine();
+
+            bw.write("3 - " + getPetGender());
+            bw.newLine();
+
+            bw.write("4 - " + getAddress().getStreet() + ", " + getAddress().getHouseNumber() + ", " + getAddress().getCity());
+            bw.newLine();
+
+            bw.write("5 - " + getAge() + " anos");
+            bw.newLine();
+
+            bw.write("6 - " + getWeight() + "kg");
+            bw.newLine();
+
+            bw.write("7 - " + getBreed());
+            bw.newLine();
+        } catch (IOException e) {
+            System.out.println("Erro ao registrar o seu pet!"  + e.getMessage());
+        }
+
+        System.out.println("Pet salvo com sucesso!");
     }
 }

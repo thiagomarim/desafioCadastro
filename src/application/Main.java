@@ -1,15 +1,18 @@
 package application;
 
 import service.PrintMenu;
+import service.RegisterPet;
 
 public class Main {
     public static void main(String[] args) {
         PrintMenu printMenu = new PrintMenu();
         int option = printMenu.printMainMenu();
+        RegisterPet registerPet = new RegisterPet();
+
         while (option != 6) {
             switch (option) {
                 case 1:
-                    System.out.println("Cadastrar Pet");
+                    registerPet.registerPet();
                     break;
                 case 2:
                     System.out.println("Alterar os dados do pet cadastrado");
